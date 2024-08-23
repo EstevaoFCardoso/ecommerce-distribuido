@@ -6,10 +6,10 @@ Este projeto é um sistema de venda de ingressos de cinema desenvolvido utilizan
 
 O sistema é composto por quatro principais microserviços:
 
-1. **Serviço de Catálogo de Filmes, Horários e Assentos (Movie Catalog, Showtime, and Seat Management Service)**
-2. **Serviço de Venda de Ingressos (Ticketing Service)**
+1. **Serviço de Catálogo de Filmes, Horários e Assentos (Session Service)**
+2. **Serviço de Venda de Ingressos (TicketSales Service)**
 3. **Serviço de Pagamentos (Payment Service)**
-4. **Serviço de Notificações (Notification Service)**
+4. **Serviço de Notificações (SendEmail Service)**
 
 ## Descrição dos Microserviços
 
@@ -33,7 +33,7 @@ Responsável por gerenciar e fornecer informações sobre os filmes disponíveis
 - `PUT /showtimes/{id}`: Atualizar informações de um horário.
 - `DELETE /showtimes/{id}`: Remover um horário.
 
-#### Assentos:
+#### Assentos: (NÃO IMPLEMENTADO AINDA)
 - `GET /seats`: Listar todos os assentos.
 - `GET /seats/{id}`: Obter detalhes de um assento específico.
 - `POST /seats`: Adicionar um novo assento.
@@ -42,28 +42,20 @@ Responsável por gerenciar e fornecer informações sobre os filmes disponíveis
 
 **Modelos de Dados**:
 
-#### Filme:
-- `id: String`
-- `titulo: String`
-- `sinopse: String`
-- `diretor: String`
-- `elenco: List<String>`
-- `duracao: Integer`
-- `genero: String`
-- `classificacao: String`
+#### Movie:
+- `id: Integer`
+- `title : String`
+- `synopsis : String`
+- `duration : Integer`
+- `genre: String`
+- `classification : String`
 
-#### Horario:
-- `id: String`
-- `filmeId: String`
-- `dataHora: DateTime`
-- `sala: String`
-
-#### Assento:
-- `id: String`
-- `numero: String`
-- `fila: String`
-- `status: String` (disponível, reservado, ocupado)
-- `horarioId: String`
+#### Showtimes:
+- `id: Integer`
+- `movie_id : Integer`
+- `cine_room : Integer`
+- `start_time  : Date`
+- `end_time   : Date`
 
 ### 2. Serviço de Venda de Ingressos
 
@@ -76,13 +68,13 @@ Responsável por gerenciar a venda de ingressos.
 - `PUT /tickets/{id}`: Atualizar informações de um ingresso.
 - `DELETE /tickets/{id}`: Remover um ingresso.
 
-**Modelo de Dados (Ingresso)**:
-- `id: String`
-- `usuarioId: String`
-- `horarioId: String`
-- `assentoId: String`
-- `status: String` (reservado, comprado)
-- `preco: Double`
+**Modelo de Dados (Ticket)**:
+- `id: Integer`
+- `user_id: String`
+- `show_time_id : Integer`
+- `price : String`
+- `purchase_date : Date`
+- `payment_status : (PAYMENT_COMPLETED, PAYMENTE_PROCESSES, PAYMENT_ERROR)`
 
 ### 3. Serviço de Pagamentos
 
@@ -95,13 +87,13 @@ Responsável por processar os pagamentos de ingressos.
 - `PUT /payments/{id}`: Atualizar informações de um pagamento.
 - `DELETE /payments/{id}`: Remover um pagamento.
 
-**Modelo de Dados (Pagamento)**:
-- `id: String`
-- `usuarioId: String`
-- `ingressoId: String`
-- `valor: Double`
-- `metodo: String` (cartão de crédito, débito, PayPal, etc.)
-- `status: String` (pendente, confirmado, falhado)
+**Modelo de Dados (Payments)**:
+- `id: Integer`
+- `ticket_id : Integer`
+- `payment_method : String` (cartão de crédito, débito, PayPal, etc.)
+- `payment_date : Date`
+- `metodo: String`
+- `payment_status : String` (PAYMENT_COMPLETED, PAYMENTE_PROCESSES, PAYMENT_ERROR)
 
 ### 4. Serviço de Notificações
 
@@ -114,21 +106,20 @@ Responsável por enviar notificações aos usuários sobre o status de suas rese
 - `PUT /notifications/{id}`: Atualizar informações de uma notificação.
 - `DELETE /notifications/{id}`: Remover uma notificação.
 
-**Modelo de Dados (Notificacao)**:
-- `id: String`
-- `usuarioId: String`
-- `mensagem: String`
-- `dataHora: DateTime`
-- `tipo: String` (email, SMS, push notification)
+**Modelo de Dados (Send Email)**:
+- `id: Integer`
+- `user_id: Integer`
+- `message: String`
+- `send_At: DateTime`
 
 ## Fluxo de Compra de Ingressos
 
-1. O usuário consulta os filmes disponíveis no **Serviço de Catálogo de Filmes, Horários e Assentos**.
-2. Seleciona um filme e verifica os horários disponíveis no **Serviço de Catálogo de Filmes, Horários e Assentos**.
-3. Escolhe um horário e verifica os assentos disponíveis no **Serviço de Catálogo de Filmes, Horários e Assentos**.
-4. Reserva um assento e inicia o processo de compra no **Serviço de Venda de Ingressos**.
-5. Realiza o pagamento no **Serviço de Pagamentos**.
-6. Recebe uma confirmação de compra e o ingresso digital no **Serviço de Notificações**.
+1. Um usuário acessa o sistema para visualizar os filmes disponíveis.
+2. O Session Service retorna a lista de filmes.
+3. O usuário escolhe um filme e vê as sessões disponíveis, que são gerenciadas no Session.
+4. O usuário seleciona uma sessão e inicia o processo de compra. O TicketSales valida a disponibilidade de assentos e inicia a transação.
+5. Uma vez confirmada a compra, o Payment Service processa o pagamento.
+6. Após o pagamento, uma mensagem é publicada no tópico para notificar o Send Email Service e atualizar os outros serviços (como o de relatórios).
 
 ## Contribuições
 

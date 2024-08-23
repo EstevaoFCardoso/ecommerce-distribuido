@@ -1,0 +1,58 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36" version="24.7.7">
+  <diagram id="9tWSgNkwYvcaLY0PW4jK" name="Página-1">
+    <mxGraphModel dx="2198" dy="1915" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-1" value="Session" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-130" y="-1080" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="fCkWrSvTF8txgXSmY_Iu-3" target="fCkWrSvTF8txgXSmY_Iu-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="fCkWrSvTF8txgXSmY_Iu-3" target="fCkWrSvTF8txgXSmY_Iu-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-3" value="TicketSales Service" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-130" y="-950" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="fCkWrSvTF8txgXSmY_Iu-5" target="fCkWrSvTF8txgXSmY_Iu-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-5" value="Payment Service" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="75" y="-820" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="fCkWrSvTF8txgXSmY_Iu-8" target="fCkWrSvTF8txgXSmY_Iu-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-8" value="Send Email Service" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="-740" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-16" value="status-payment" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.direct_data;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="210" y="-725" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-23" value="request-payment" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.direct_data;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="60" y="-935" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-28" value="1. O orquestrador (TiketSales) busca a relação de filmes, disponibilidades e horários." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-310" y="-1000" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="fCkWrSvTF8txgXSmY_Iu-5" target="fCkWrSvTF8txgXSmY_Iu-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-30" value="2. Após juntar todas as informações o orquestrador de venda de tickets faz a solicitação para o pagamento dos ingressos escolhidos." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry y="-990" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-31" value="3. Apartir disso, o serviço de pagamento irá iniciar o processamento de sua devida solicitação e ao finalizar algumas validações o mesmo envia a atualização de status de pagamento para o tópico devido." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="160" y="-850" width="400" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-32" value="4. E por ultimo temos um serviço de envio das confirmações de pagamento por email." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="375" width="400" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fCkWrSvTF8txgXSmY_Iu-33" value="&lt;span style=&quot;font-size: 39px;&quot;&gt;Arquitetura TicketSales&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-285" y="-1140" width="430" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
