@@ -1,0 +1,10 @@
+server:
+    port: 8000
+
+springdoc:
+    api-docs:
+        path: /v1/api-docs
+    swagger-ui:
+        path: /swagger-ui.html
+        operationsSorter: method
+        disable-swagger-default-url: true
