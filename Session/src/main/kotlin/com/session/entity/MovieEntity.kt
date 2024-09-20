@@ -1,5 +1,6 @@
 package com.session.entity
 
+import com.session.dto.GenreDTO
 import com.session.dto.MovieDTO
 import jakarta.persistence.*
 import lombok.Getter
@@ -24,8 +25,8 @@ class MovieEntity : Serializable {
     @Column(name = "duration")
     var duration: Long? = null
 
-    @Column(name = "gender")
-    var gender: String? = null
+    @Column(name = "genre")
+    var genreId: GenreEntity? = null
 
     @Column(name = "classification")
     var classification: String? = null
@@ -37,7 +38,7 @@ fun MovieEntity.toDTO(): MovieDTO {
         title = this.title ?: "",
         synopsis = this.synopsis ?: "",
         duration = this.duration ?: 0L,
-        gender = this.gender ?: "",
+        genre = this.genreId?.let { GenreDTO(it.id, it.name) },
         classification = this.classification ?: ""
     )
 }
