@@ -1,6 +1,6 @@
 package com.session.entity
 
-import com.session.dto.CineRoomDTO
+import com.session.controller.api.request.dto.CineRoomDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter

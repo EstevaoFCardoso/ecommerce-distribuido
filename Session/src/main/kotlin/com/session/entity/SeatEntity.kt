@@ -1,6 +1,6 @@
 package com.session.entity
 
-import com.session.dto.SeatDTO
+import com.session.controller.api.request.dto.SeatDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
