@@ -1,7 +1,6 @@
 package com.session.dto
 
 import com.session.entity.CineRoomEntity
-import com.session.entity.GenreEntity
 
 data class CineRoomDTO(
     val numberRoom: Long?,
