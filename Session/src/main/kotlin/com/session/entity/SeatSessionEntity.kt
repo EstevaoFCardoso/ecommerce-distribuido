@@ -23,6 +23,7 @@ class SeatSessionEntity : Serializable {
     @Column(name = "available_seats")
     var availableSeats: Long? = null
 
+    @ManyToOne
     @Column(name = "session_id")
     var sessionId: Long? = null
 }

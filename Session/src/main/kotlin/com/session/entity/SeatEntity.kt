@@ -11,6 +11,7 @@ import java.io.Serializable
 @Entity
 @Table(name = "seat")
 class SeatEntity : Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0

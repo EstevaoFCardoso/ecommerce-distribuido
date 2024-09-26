@@ -20,11 +20,16 @@ class CineRoomEntity : Serializable {
 
     @Column(name = "name")
     var name: String? = null
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "session_id")
+    var sessionId: Long? = null
 }
 
 fun CineRoomEntity.toDTO(): CineRoomDTO {
     return CineRoomDTO(
         numberRoom = numberRoom,
-        name = name
+        name = name,
+        sessionId = sessionId
     )
 }
