@@ -1,6 +1,6 @@
 package com.session.controller
 
-import com.session.entity.GenreEntity
+import com.session.dto.GenreDTO
 import com.session.service.GenreService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,12 +13,12 @@ class GenreController(
 ) {
 
     @GetMapping
-    fun getAllGenres(): ResponseEntity<List<GenreEntity>> {
+    fun getAllGenres(): ResponseEntity<List<GenreDTO>> {
         return ResponseEntity.ok(genreService.getAllGenres())
     }
 
     @GetMapping("/{id}")
-    fun getGenreById(@PathVariable id: Long): ResponseEntity<GenreEntity> {
+    fun getGenreById(@PathVariable id: Long): ResponseEntity<GenreDTO> {
         val genre = genreService.getGenreById(id)
         return if (genre != null) {
             ResponseEntity.ok(genre)
@@ -28,24 +28,25 @@ class GenreController(
     }
 
     @PostMapping
-    fun createGenre(@RequestBody genreEntity: GenreEntity): ResponseEntity<GenreEntity> {
-        val newGenre = genreService.createGenre(genreEntity)
-        return ResponseEntity(newGenre, HttpStatus.CREATED)
+    fun createGenre(@RequestBody genreDTO: GenreDTO): ResponseEntity<GenreDTO> {
+        val newGenre = genreService.createGenre(genreDTO)
+        return ResponseEntity.status(HttpStatus.CREATED).body(newGenre)
     }
 
     @PutMapping("/{id}")
-    fun updateGenre(@PathVariable id: Long, @RequestBody genreEntity: GenreEntity): ResponseEntity<GenreEntity> {
-        val updatedGenre = genreService.updateGenre(id, genreEntity)
-        return if (updatedGenre != null) {
+    fun updateGenre(@PathVariable id: Long, @RequestBody genreDTO: GenreDTO): ResponseEntity<GenreDTO> {
+        return genreService.updateGenre(id, genreDTO).let { updatedGenre ->
             ResponseEntity.ok(updatedGenre)
-        } else {
-            ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
 
     @DeleteMapping("/{id}")
     fun deleteGenre(@PathVariable id: Long): ResponseEntity<Void> {
         genreService.deleteGenre(id)
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+        return if (genreService.deleteGenre(id)) {
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
     }
 }

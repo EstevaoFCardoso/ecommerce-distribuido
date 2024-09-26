@@ -1,5 +1,6 @@
 package com.session.controller
 
+import com.session.dto.CineRoomDTO
 import com.session.entity.CineRoomEntity
 import com.session.service.CineRoomService
 import org.springframework.http.HttpStatus
@@ -13,12 +14,12 @@ class CineRoomController(
 ) {
 
     @GetMapping
-    fun getAllCineRooms(): ResponseEntity<List<CineRoomEntity>> {
+    fun getAllCineRooms(): ResponseEntity<List<CineRoomDTO>> {
         return ResponseEntity.ok(cineRoomService.getAllCineRooms())
     }
 
     @GetMapping("/{id}")
-    fun getCineRoomById(@PathVariable id: Long): ResponseEntity<CineRoomEntity> {
+    fun getCineRoomById(@PathVariable id: Long): ResponseEntity<CineRoomDTO> {
         val cineRoom = cineRoomService.getCineRoomById(id)
         return if (cineRoom != null) {
             ResponseEntity.ok(cineRoom)
@@ -28,24 +29,24 @@ class CineRoomController(
     }
 
     @PostMapping
-    fun createCineRoom(@RequestBody cineRoomEntity: CineRoomEntity): ResponseEntity<CineRoomEntity> {
-        val newCineRoom = cineRoomService.createCineRoom(cineRoomEntity)
-        return ResponseEntity(newCineRoom, HttpStatus.CREATED)
+    fun createCineRoom(@RequestBody cineRoomDTO: CineRoomDTO): ResponseEntity<CineRoomDTO> {
+        val newCineRoom = cineRoomService.createCineRoom(cineRoomDTO)
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCineRoom)
     }
 
     @PutMapping("/{id}")
-    fun updateCineRoom(@PathVariable id: Long, @RequestBody cineRoomEntity: CineRoomEntity): ResponseEntity<CineRoomEntity> {
-        val updatedCineRoom = cineRoomService.updateCineRoom(id, cineRoomEntity)
-        return if (updatedCineRoom != null) {
-            ResponseEntity.ok(updatedCineRoom)
-        } else {
-            ResponseEntity(HttpStatus.NOT_FOUND)
+    fun updateCineRoom(@PathVariable id: Long, @RequestBody cineRoomDTO: CineRoomDTO): ResponseEntity<CineRoomDTO> {
+        return cineRoomService.updateCineRoom(id, cineRoomDTO).let { updateCineRoom ->
+            ResponseEntity.ok(updateCineRoom)
         }
     }
 
     @DeleteMapping("/{id}")
     fun deleteCineRoom(@PathVariable id: Long): ResponseEntity<Void> {
-        cineRoomService.deleteCineRoom(id)
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+        return if (cineRoomService.deleteCineRoom(id)) {
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
     }
 }

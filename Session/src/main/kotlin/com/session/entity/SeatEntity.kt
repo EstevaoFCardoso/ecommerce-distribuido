@@ -1,5 +1,8 @@
 package com.session.entity
 
+import com.session.dto.GenreDTO
+import com.session.dto.MovieDTO
+import com.session.dto.SeatDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
@@ -16,4 +19,10 @@ class SeatEntity : Serializable {
 
     @Column(name = "name")
     var name: String? = null
+}
+
+fun SeatEntity.toDTO(): SeatDTO {
+    return SeatDTO(
+        name = name
+    )
 }

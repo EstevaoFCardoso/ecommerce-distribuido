@@ -1,5 +1,6 @@
 package com.session.entity
 
+import com.session.dto.CineRoomDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
@@ -19,4 +20,11 @@ class CineRoomEntity : Serializable {
 
     @Column(name = "name")
     var name: String? = null
+}
+
+fun CineRoomEntity.toDTO(): CineRoomDTO {
+    return CineRoomDTO(
+        numberRoom = numberRoom,
+        name = name
+    )
 }

@@ -1,5 +1,6 @@
 package com.session.entity
 
+import com.session.dto.GenreDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
@@ -16,4 +17,10 @@ class GenreEntity : Serializable {
 
     @Column(name = "name")
     var name: String? = null
+}
+fun GenreEntity.toDTO(): GenreDTO {
+    return GenreDTO(
+        id = id,
+        name= name
+    )
 }

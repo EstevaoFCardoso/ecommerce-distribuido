@@ -1,7 +1,10 @@
 package com.session.service
 
-import com.session.entity.SeatEntity
+import com.session.dto.SeatDTO
+import com.session.dto.toEntity
+import com.session.entity.toDTO
 import com.session.repository.SeatRepository
+import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
@@ -9,30 +12,36 @@ class SeatService(
     private val seatRepository: SeatRepository
 ) {
 
-    fun getAllSeats(): List<SeatEntity> {
-        return seatRepository.findAll()
+    fun getAllSeats(): List<SeatDTO> {
+        return seatRepository.findAll().map { seat ->
+            seat.toDTO()
+        }
     }
 
-    fun getSeatById(id: Long): SeatEntity? {
-        return seatRepository.findById(id).orElse(null)
+    fun getSeatById(id: Long): SeatDTO? {
+        val seat = seatRepository.findById(id).orElseThrow {
+            EntityNotFoundException("Seat with ID $id not found")
+        }
+        return seat.toDTO()
     }
 
-    fun createSeat(seatEntity: SeatEntity): SeatEntity {
-        return seatRepository.save(seatEntity)
+    fun createSeat(seatEntity: SeatDTO): SeatDTO {
+        return seatRepository.save(seatEntity.toEntity()).toDTO()
     }
 
-    fun updateSeat(id: Long, seatEntity: SeatEntity): SeatEntity? {
+    fun updateSeat(id: Long, seatEntity: SeatDTO): SeatDTO? {
         return if (seatRepository.existsById(id)) {
-            seatEntity.id = id
-            seatRepository.save(seatEntity)
+            seatRepository.save(seatEntity.toEntity()).toDTO()
         } else {
             null
         }
     }
 
-    fun deleteSeat(id: Long) {
-        if (seatRepository.existsById(id)) {
-            seatRepository.deleteById(id)
+    fun deleteSeat(id: Long): Boolean {
+        if (!seatRepository.existsById(id)) {
+            throw EntityNotFoundException("Seat with ID $id not found")
         }
+        seatRepository.deleteById(id)
+        return true
     }
 }

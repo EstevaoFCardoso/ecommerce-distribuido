@@ -1,6 +1,6 @@
 package com.session.controller
 
-import com.session.entity.SeatEntity
+import com.session.dto.SeatDTO
 import com.session.service.SeatService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,12 +13,12 @@ class SeatController(
 ) {
 
     @GetMapping
-    fun getAllSeats(): ResponseEntity<List<SeatEntity>> {
+    fun getAllSeats(): ResponseEntity<List<SeatDTO>> {
         return ResponseEntity.ok(seatService.getAllSeats())
     }
 
     @GetMapping("/{id}")
-    fun getSeatById(@PathVariable id: Long): ResponseEntity<SeatEntity> {
+    fun getSeatById(@PathVariable id: Long): ResponseEntity<SeatDTO> {
         val seat = seatService.getSeatById(id)
         return if (seat != null) {
             ResponseEntity.ok(seat)
@@ -28,24 +28,24 @@ class SeatController(
     }
 
     @PostMapping
-    fun createSeat(@RequestBody seatEntity: SeatEntity): ResponseEntity<SeatEntity> {
-        val newSeat = seatService.createSeat(seatEntity)
-        return ResponseEntity(newSeat, HttpStatus.CREATED)
+    fun createSeat(@RequestBody seatDTO: SeatDTO): ResponseEntity<SeatDTO> {
+        val newSeat = seatService.createSeat(seatDTO)
+        return ResponseEntity.status(HttpStatus.CREATED).body(newSeat)
     }
 
     @PutMapping("/{id}")
-    fun updateSeat(@PathVariable id: Long, @RequestBody seatEntity: SeatEntity): ResponseEntity<SeatEntity> {
-        val updatedSeat = seatService.updateSeat(id, seatEntity)
-        return if (updatedSeat != null) {
-            ResponseEntity.ok(updatedSeat)
-        } else {
-            ResponseEntity(HttpStatus.NOT_FOUND)
+    fun updateSeat(@PathVariable id: Long, @RequestBody seatDTO: SeatDTO): ResponseEntity<SeatDTO> {
+        return seatService.updateSeat(id, seatDTO).let { updateSeat ->
+            ResponseEntity.ok(updateSeat)
         }
     }
 
     @DeleteMapping("/{id}")
     fun deleteSeat(@PathVariable id: Long): ResponseEntity<Void> {
-        seatService.deleteSeat(id)
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+        return if (seatService.deleteSeat(id)) {
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
     }
 }

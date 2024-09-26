@@ -1,6 +1,6 @@
 package com.session.controller
 
-import com.session.entity.SessionEntity
+import com.session.dto.SessionDTO
 import com.session.service.SessionService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,12 +13,12 @@ class SessionController(
 ) {
 
     @GetMapping
-    fun getAllSessions(): ResponseEntity<List<SessionEntity>> {
+    fun getAllSessions(): ResponseEntity<List<SessionDTO>> {
         return ResponseEntity.ok(sessionService.getAllSessions())
     }
 
     @GetMapping("/{id}")
-    fun getSessionById(@PathVariable id: Long): ResponseEntity<SessionEntity> {
+    fun getSessionById(@PathVariable id: Long): ResponseEntity<SessionDTO> {
         val session = sessionService.getSessionById(id)
         return if (session != null) {
             ResponseEntity.ok(session)
@@ -28,24 +28,24 @@ class SessionController(
     }
 
     @PostMapping
-    fun createSession(@RequestBody sessionEntity: SessionEntity): ResponseEntity<SessionEntity> {
-        val newSession = sessionService.createSession(sessionEntity)
+    fun createSession(@RequestBody sessionDTO: SessionDTO): ResponseEntity<SessionDTO> {
+        val newSession = sessionService.createSession(sessionDTO)
         return ResponseEntity(newSession, HttpStatus.CREATED)
     }
 
     @PutMapping("/{id}")
-    fun updateSession(@PathVariable id: Long, @RequestBody sessionEntity: SessionEntity): ResponseEntity<SessionEntity> {
-        val updatedSession = sessionService.updateSession(id, sessionEntity)
-        return if (updatedSession != null) {
+    fun updateSession(@PathVariable id: Long, @RequestBody sessionDTO: SessionDTO): ResponseEntity<SessionDTO> {
+        return sessionService.updateSession(id, sessionDTO).let { updatedSession ->
             ResponseEntity.ok(updatedSession)
-        } else {
-            ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
 
     @DeleteMapping("/{id}")
     fun deleteSession(@PathVariable id: Long): ResponseEntity<Void> {
-        sessionService.deleteSession(id)
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+        return if (sessionService.deleteSession(id)) {
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
     }
 }

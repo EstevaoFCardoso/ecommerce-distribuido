@@ -1,5 +1,6 @@
 package com.session.entity
 
+import com.session.dto.SeatSessionDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
@@ -16,12 +17,20 @@ class SeatSessionEntity : Serializable {
     var id: Long = 0
 
     @ManyToOne
-    @JoinColumn(name = "movie_id")
-    var seat_id: SeatEntity? = null
+    @JoinColumn(name = "seat_id")
+    var seatId: Long? = null
 
     @Column(name = "available_seats")
     var availableSeats: Long? = null
 
     @Column(name = "session_id")
-    var sessionId: SessionEntity? = null
+    var sessionId: Long? = null
+}
+
+fun SeatSessionEntity.toDTO(): SeatSessionDTO {
+    return SeatSessionDTO(
+        availableSeats = this.availableSeats?: 0L,
+        sessionId = this.sessionId ?: 0L,
+        seatId = this.seatId ?: 0
+        )
 }
