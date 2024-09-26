@@ -1,7 +1,5 @@
 package com.session.entity
 
-import com.session.dto.GenreDTO
-import com.session.dto.MovieDTO
 import com.session.dto.SeatDTO
 import jakarta.persistence.*
 import lombok.Getter
