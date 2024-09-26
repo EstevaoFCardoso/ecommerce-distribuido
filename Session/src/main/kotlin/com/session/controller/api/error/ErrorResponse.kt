@@ -1,4 +1,4 @@
-package com.session.service.error
+package com.session.controller.api.error
 
 import org.springframework.http.HttpStatus
 

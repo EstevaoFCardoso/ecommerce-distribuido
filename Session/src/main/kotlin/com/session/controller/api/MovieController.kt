@@ -2,7 +2,7 @@ package com.session.controller.api
 
 import com.session.controller.api.request.dto.MovieDTO
 import com.session.service.MovieService
-import com.session.service.error.ResourceNotFoundException
+import com.session.controller.api.error.ResourceNotFoundException
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
