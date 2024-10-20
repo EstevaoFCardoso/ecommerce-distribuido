@@ -8,7 +8,8 @@ data class SessionDTO(
     val startSession: LocalDateTime?,
     val endSession: LocalDateTime?,
     val initRangeTime: LocalDateTime?,
-    val endRangeTime: LocalDateTime?
+    val endRangeTime: LocalDateTime?,
+    var description: String? = null
 )
 
 fun SessionDTO.toEntity(): SessionEntity {
@@ -18,5 +19,6 @@ fun SessionDTO.toEntity(): SessionEntity {
     sessionEntity.endSession = this.endSession
     sessionEntity.initRangeTime = this.initRangeTime
     sessionEntity.endRangeTime = this.endRangeTime
+    sessionEntity.description = this.description
     return sessionEntity
 }

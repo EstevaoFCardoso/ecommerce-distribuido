@@ -21,6 +21,9 @@ class SessionEntity : Serializable {
     @JoinColumn(name = "movie_id")
     var movieId: Long? = null
 
+    @Column(name = "session_description")
+    var description: String? = null
+
     @Column(name = "start_time")
     var startSession: LocalDateTime? = null
 
@@ -40,6 +43,7 @@ fun SessionEntity.toDTO(): SessionDTO {
         startSession = this.startSession,
         endRangeTime = endRangeTime,
         initRangeTime = initRangeTime,
-        endSession = endSession
+        endSession = endSession,
+        description = description
     )
 }
