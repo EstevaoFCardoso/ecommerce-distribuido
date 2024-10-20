@@ -28,10 +28,21 @@ class SeatSessionEntity : Serializable {
     var sessionId: Long? = null
 }
 
-fun SeatSessionEntity.toDTO(): SeatSessionDTO {
-    return SeatSessionDTO(
-        availableSeats = this.availableSeats?: 0L,
-        sessionId = this.sessionId ?: 0L,
-        seatId = this.seatId ?: 0
+class SeatSessionAssembler {
+
+    fun toEntity(seatSessionDTO: SeatSessionDTO): SeatSessionEntity {
+        val seatSessionEntity = SeatSessionEntity()
+        seatSessionEntity.seatId = seatSessionDTO.seatId
+        seatSessionEntity.availableSeats = seatSessionDTO.availableSeats
+        seatSessionEntity.sessionId = seatSessionDTO.sessionId ?: 0
+        return seatSessionEntity
+    }
+
+    fun toDTO(seatSessionEntity: SeatSessionEntity): SeatSessionDTO {
+        return SeatSessionDTO(
+            availableSeats = seatSessionEntity.availableSeats?: 0L,
+            sessionId = seatSessionEntity.sessionId ?: 0L,
+            seatId = seatSessionEntity.seatId ?: 0
         )
+    }
 }

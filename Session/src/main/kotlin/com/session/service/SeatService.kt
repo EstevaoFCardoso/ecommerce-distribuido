@@ -1,20 +1,20 @@
 package com.session.service
 
 import com.session.controller.api.request.dto.SeatDTO
-import com.session.controller.api.request.dto.toEntity
-import com.session.entity.toDTO
+import com.session.entity.SeatAssembler
 import com.session.repository.SeatRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
 class SeatService(
-    private val seatRepository: SeatRepository
+    private val seatRepository: SeatRepository,
+    private val seatAssembler: SeatAssembler
 ) {
 
     fun getAllSeats(): List<SeatDTO> {
         return seatRepository.findAll().map { seat ->
-            seat.toDTO()
+            seatAssembler.toDTO(seat)
         }
     }
 
@@ -22,16 +22,16 @@ class SeatService(
         val seat = seatRepository.findById(id).orElseThrow {
             EntityNotFoundException("Seat with ID $id not found")
         }
-        return seat.toDTO()
+        return seatAssembler.toDTO(seat)
     }
 
-    fun createSeat(seatEntity: SeatDTO): SeatDTO {
-        return seatRepository.save(seatEntity.toEntity()).toDTO()
+    fun createSeat(seat: SeatDTO): SeatDTO {
+        return seatAssembler.toDTO(seatRepository.save(seatAssembler.toEntity(seat)))
     }
 
-    fun updateSeat(id: Long, seatEntity: SeatDTO): SeatDTO? {
+    fun updateSeat(id: Long, seat: SeatDTO): SeatDTO? {
         return if (seatRepository.existsById(id)) {
-            seatRepository.save(seatEntity.toEntity()).toDTO()
+            seatAssembler.toDTO(seatRepository.save(seatAssembler.toEntity(seat)))
         } else {
             null
         }

@@ -26,10 +26,22 @@ class CineRoomEntity : Serializable {
     var sessionId: Long? = null
 }
 
-fun CineRoomEntity.toDTO(): CineRoomDTO {
-    return CineRoomDTO(
-        numberRoom = numberRoom,
-        name = name,
-        sessionId = sessionId
-    )
+class CineRoomAssembler {
+
+    fun toDTO(cineRoomEntity: CineRoomEntity): CineRoomDTO {
+        return CineRoomDTO(
+            numberRoom = cineRoomEntity.numberRoom,
+            name = cineRoomEntity.name,
+            sessionId = cineRoomEntity.sessionId
+        )
+    }
+
+    fun toEntity(cineRoomDTO: CineRoomDTO): CineRoomEntity {
+        val cineRoomEntity = CineRoomEntity()
+        cineRoomEntity.name = cineRoomDTO.name?: ""
+        cineRoomEntity.numberRoom= cineRoomDTO.numberRoom?: 0L
+        cineRoomEntity.sessionId = cineRoomDTO.sessionId?: 0L
+        return cineRoomEntity
+    }
+    
 }

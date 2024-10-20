@@ -10,13 +10,3 @@ data class MovieDTO(
     val genre: String?,
     val classification: String?
 )
-
-fun MovieDTO.toEntity(): MovieEntity {
-    val movieEntity = MovieEntity()
-    movieEntity.title = this.title
-    movieEntity.synopsis = this.synopsis
-    movieEntity.duration = this.duration
-    movieEntity.genre = GenreEnum.fromName(this.genre.toString()).toString()
-    movieEntity.classification = this.classification
-    return movieEntity
-}

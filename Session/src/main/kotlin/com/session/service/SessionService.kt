@@ -1,21 +1,20 @@
 package com.session.service
 
 import com.session.controller.api.request.dto.SessionDTO
-import com.session.controller.api.request.dto.toEntity
-import com.session.entity.SessionEntity
-import com.session.entity.toDTO
+import com.session.entity.SessionAssembler
 import com.session.repository.SessionRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
 class SessionService(
-    private val sessionRepository: SessionRepository
+    private val sessionRepository: SessionRepository,
+    private val assembler: SessionAssembler
 ) {
 
     fun getAllSessions(): List<SessionDTO> {
         return sessionRepository.findAll().map { session ->
-            session.toDTO()
+            assembler.toDTO(session)
         }
     }
 
@@ -23,18 +22,18 @@ class SessionService(
         val session = sessionRepository.findById(id).orElseThrow {
             EntityNotFoundException("Session with ID $id not found")
         }
-        return session.toDTO()
+        return assembler.toDTO(session)
     }
 
-    fun createSession(sessionEntity: SessionDTO): SessionDTO {
-        return sessionRepository.save(sessionEntity.toEntity()).toDTO()
+    fun createSession(sessionDTO: SessionDTO): SessionDTO {
+        return assembler.toDTO(sessionRepository.save(assembler.toEntity(sessionDTO)))
     }
 
-    fun updateSession(id: Long, sessionEntity: SessionDTO): SessionDTO? {
+    fun updateSession(id: Long, sessionDTO: SessionDTO): SessionDTO? {
         if (!sessionRepository.existsById(id)) {
             throw EntityNotFoundException("Movie with ID $id not found")
         }
-        return sessionRepository.save(sessionEntity.toEntity()).toDTO()
+        return assembler.toDTO(sessionRepository.save(assembler.toEntity(sessionDTO)))
     }
 
     fun deleteSession(id: Long) :Boolean {

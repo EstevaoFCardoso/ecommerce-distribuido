@@ -4,6 +4,7 @@ import com.session.controller.api.request.dto.SessionDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
+import org.springframework.stereotype.Component
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -37,13 +38,28 @@ class SessionEntity : Serializable {
     var endRangeTime: LocalDateTime? = null
 }
 
-fun SessionEntity.toDTO(): SessionDTO {
-    return SessionDTO(
-        movieId = this.movieId,
-        startSession = this.startSession,
-        endRangeTime = endRangeTime,
-        initRangeTime = initRangeTime,
-        endSession = endSession,
-        description = description
-    )
+@Component
+class SessionAssembler {
+
+    fun toDTO(sessionEntity: SessionEntity): SessionDTO {
+        return SessionDTO(
+            movieId = sessionEntity.id,
+            startSession = sessionEntity.startSession,
+            endRangeTime = sessionEntity.endRangeTime,
+            initRangeTime = sessionEntity.initRangeTime,
+            endSession = sessionEntity.endSession,
+            description = sessionEntity.description
+        )
+    }
+
+    fun toEntity(sessionDTO: SessionDTO): SessionEntity {
+        val sessionEntity = SessionEntity()
+        sessionEntity.movieId = sessionDTO.movieId
+        sessionEntity.startSession = sessionDTO.startSession
+        sessionEntity.endSession = sessionDTO.endSession
+        sessionEntity.initRangeTime = sessionDTO.initRangeTime
+        sessionEntity.endRangeTime = sessionDTO.endRangeTime
+        sessionEntity.description = sessionDTO.description
+        return sessionEntity
+    }
 }

@@ -33,12 +33,26 @@ class MovieEntity : Serializable {
 
 }
 
-fun MovieEntity.toDTO(): MovieDTO {
-    return MovieDTO(
-        title = this.title ?: "",
-        synopsis = this.synopsis ?: "",
-        duration = this.duration ?: 0L,
-        genre =  GenreEnum.fromName(this.genre.toString()).toString(),
-        classification = this.classification ?: ""
-    )
+class MovieAssembler {
+
+    fun toDTO(movie: MovieEntity): MovieDTO {
+        return MovieDTO(
+            title = movie.title ?: "",
+            synopsis = movie.synopsis ?: "",
+            duration = movie.duration ?: 0L,
+            genre = GenreEnum.fromName(movie.genre.toString()).toString(),
+            classification = movie.classification ?: ""
+        )
+    }
+
+    fun toEntity(movie: MovieDTO): MovieEntity {
+        val movieEntity = MovieEntity()
+        movieEntity.title = movie.title
+        movieEntity.synopsis = movie.synopsis
+        movieEntity.duration = movie.duration
+        movieEntity.genre = GenreEnum.fromName(movie.genre.toString()).toString()
+        movieEntity.classification = movie.classification
+        return movieEntity
+    }
+
 }

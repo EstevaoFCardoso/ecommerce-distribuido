@@ -20,8 +20,16 @@ class SeatEntity : Serializable {
     var name: String? = null
 }
 
-fun SeatEntity.toDTO(): SeatDTO {
-    return SeatDTO(
-        name = name
-    )
+class SeatAssembler {
+    fun toDTO(seat: SeatEntity): SeatDTO {
+        return SeatDTO(
+            name = seat.name
+        )
+    }
+
+    fun toEntity(seat: SeatDTO): SeatEntity {
+        val seatEntity = SeatEntity()
+        seatEntity.name = seat.name
+        return seatEntity
+    }
 }
