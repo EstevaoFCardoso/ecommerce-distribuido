@@ -4,45 +4,47 @@ import com.session.controller.api.request.dto.SeatSessionDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
-import java.io.Serializable
 
 @Getter
 @Setter
 @Entity
 @Table(name = "seat_session")
-class SeatSessionEntity : Serializable {
-
+class SeatSessionEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    @Column(name = "ID_SEAT_SESSION")
+    val id: Long? = null,
 
     @ManyToOne
-    @JoinColumn(name = "seat_id")
-    var seatId: Long? = null
+    @JoinColumn(name = "SEAT_ID")
+    val seat: SeatEntity,
 
-    @Column(name = "available_seats")
-    var availableSeats: Long? = null
+    @Column(name = "AVAILABLE_SEAT")
+    val availableSeats: Long,
 
     @ManyToOne
-    @Column(name = "session_id")
-    var sessionId: Long? = null
-}
+    @JoinColumn(name = "SESSION_ID")
+    val session: SessionEntity
+)
 
-class SeatSessionAssembler {
+class SeatSessionAssembler(
+    private val seatAssembler: SeatAssembler,
+    private val sessionAssembler: SessionAssembler
+) {
 
     fun toEntity(seatSessionDTO: SeatSessionDTO): SeatSessionEntity {
-        val seatSessionEntity = SeatSessionEntity()
-        seatSessionEntity.seatId = seatSessionDTO.seatId
-        seatSessionEntity.availableSeats = seatSessionDTO.availableSeats
-        seatSessionEntity.sessionId = seatSessionDTO.sessionId ?: 0
-        return seatSessionEntity
+        return SeatSessionEntity(
+            seat = seatAssembler.toEntity(seatSessionDTO.seat),
+            availableSeats = seatSessionDTO.availableSeats,
+            session = sessionAssembler.toEntity(seatSessionDTO.session),
+        )
     }
 
     fun toDTO(seatSessionEntity: SeatSessionEntity): SeatSessionDTO {
         return SeatSessionDTO(
-            availableSeats = seatSessionEntity.availableSeats?: 0L,
-            sessionId = seatSessionEntity.sessionId ?: 0L,
-            seatId = seatSessionEntity.seatId ?: 0
+            seat = seatAssembler.toDTO(seatSessionEntity.seat),
+            availableSeats = seatSessionEntity.availableSeats,
+            session = sessionAssembler.toDTO(seatSessionEntity.session),
         )
     }
 }

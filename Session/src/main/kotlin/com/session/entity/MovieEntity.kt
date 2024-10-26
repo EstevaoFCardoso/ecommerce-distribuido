@@ -5,54 +5,54 @@ import com.session.enums.GenreEnum
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
-import java.io.Serializable
 
 @Getter
 @Setter
 @Entity
 @Table(name = "movies")
-class MovieEntity : Serializable {
+class MovieEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    @Column(name = "ID_MOVIE")
+    val id: Long? = null,
 
-    @Column(name = "title")
-    var title: String? = null
+    @Column(name = "TITLE")
+    val title: String,
 
-    @Column(name = "synopsis")
-    var synopsis: String? = null
+    @Column(name = "SYNOPSIS")
+    val synopsis: String,
 
-    @Column(name = "duration")
-    var duration: Long? = null
+    @Column(name = "DURATION")
+    val duration: Long,
 
-    @Column(name = "genre")
-    var genre: String? = null
+    @Column(name = "GENRE")
+    val genre: GenreEnum,
 
-    @Column(name = "classification")
-    var classification: String? = null
+    @Column(name = "CLASSIFICATION")
+    val classification: String,
 
-}
+    )
 
 class MovieAssembler {
 
     fun toDTO(movie: MovieEntity): MovieDTO {
         return MovieDTO(
-            title = movie.title ?: "",
-            synopsis = movie.synopsis ?: "",
-            duration = movie.duration ?: 0L,
-            genre = GenreEnum.fromName(movie.genre.toString()).toString(),
-            classification = movie.classification ?: ""
+            title = movie.title,
+            synopsis = movie.synopsis,
+            duration = movie.duration,
+            genre = movie.genre,
+            classification = movie.classification
         )
     }
 
     fun toEntity(movie: MovieDTO): MovieEntity {
-        val movieEntity = MovieEntity()
-        movieEntity.title = movie.title
-        movieEntity.synopsis = movie.synopsis
-        movieEntity.duration = movie.duration
-        movieEntity.genre = GenreEnum.fromName(movie.genre.toString()).toString()
-        movieEntity.classification = movie.classification
-        return movieEntity
+        return MovieEntity(
+            title = movie.title,
+            synopsis = movie.synopsis,
+            duration = movie.duration,
+            genre = movie.genre,
+            classification = movie.classification
+        )
     }
 
 }

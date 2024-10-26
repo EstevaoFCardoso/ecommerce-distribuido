@@ -10,15 +10,16 @@ import java.io.Serializable
 @Setter
 @Entity
 @Table(name = "seat")
-class SeatEntity : Serializable {
+class SeatEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    @Column(name = "ID_SEAT")
+    var id: Long = 0,
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     var name: String? = null
-}
+)
 
 class SeatAssembler {
     fun toDTO(seat: SeatEntity): SeatDTO {
