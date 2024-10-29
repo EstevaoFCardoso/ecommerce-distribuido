@@ -2,6 +2,7 @@ package com.session.controller.api
 
 import com.session.controller.api.request.dto.SessionDTO
 import com.session.service.SessionService
+import jakarta.persistence.EntityNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -42,9 +43,10 @@ class SessionController(
 
     @DeleteMapping("/{id}")
     fun deleteSession(@PathVariable id: Long): ResponseEntity<Void> {
-        return if (sessionService.deleteSession(id)) {
+        return try {
+            sessionService.deleteSession(id)
             ResponseEntity.noContent().build()
-        } else {
+        } catch (ex: EntityNotFoundException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
     }

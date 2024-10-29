@@ -3,6 +3,7 @@ package com.session.entity
 import com.session.controller.api.request.dto.CineRoomDTO
 import com.session.controller.api.request.dto.SessionDTO
 import jakarta.persistence.*
+import org.springframework.stereotype.Component
 
 @Entity
 @Table(name = "CINE_ROOM")
@@ -22,9 +23,9 @@ class CineRoomEntity(
     var sessions: List<SessionEntity> = mutableListOf()
 )
 
+@Component
 class CineRoomAssembler(
-    private val assembler: SessionAssembler,
-    private val movieAssembler: MovieAssembler
+    private val movieAssembler: MovieAssembler,
 ) {
 
     fun toDTO(cineRoomEntity: CineRoomEntity): CineRoomDTO {
@@ -39,7 +40,7 @@ class CineRoomAssembler(
                         endSession = sessionIterator.endSession,
                         initRangeTime = sessionIterator.initRangeTime,
                         endRangeTime = sessionIterator.endRangeTime,
-                        description = sessionIterator.description
+                        description = sessionIterator.description,
                     )
                 }
             }

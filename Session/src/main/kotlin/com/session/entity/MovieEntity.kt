@@ -5,6 +5,7 @@ import com.session.enums.GenreEnum
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
+import org.springframework.stereotype.Component
 
 @Getter
 @Setter
@@ -25,14 +26,15 @@ class MovieEntity(
     @Column(name = "DURATION")
     val duration: Long,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "GENRE")
     val genre: GenreEnum,
 
     @Column(name = "CLASSIFICATION")
     val classification: String,
-
     )
 
+@Component
 class MovieAssembler {
 
     fun toDTO(movie: MovieEntity): MovieDTO {

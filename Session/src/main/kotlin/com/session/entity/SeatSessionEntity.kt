@@ -4,6 +4,7 @@ import com.session.controller.api.request.dto.SeatSessionDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
+import org.springframework.stereotype.Component
 
 @Getter
 @Setter
@@ -27,6 +28,7 @@ class SeatSessionEntity(
     val session: SessionEntity
 )
 
+@Component
 class SeatSessionAssembler(
     private val seatAssembler: SeatAssembler,
     private val sessionAssembler: SessionAssembler

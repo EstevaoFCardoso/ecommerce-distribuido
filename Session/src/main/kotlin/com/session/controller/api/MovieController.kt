@@ -3,6 +3,7 @@ package com.session.controller.api
 import com.session.controller.api.request.dto.MovieDTO
 import com.session.service.MovieService
 import com.session.controller.api.error.ResourceNotFoundException
+import com.session.controller.api.response.ListMoviesResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
@@ -31,8 +32,10 @@ class MovieController(private val movieService: MovieService) {
 
     @Operation(summary = "List all movies", description = "Retrieve a list of all movies in the catalog")
     @GetMapping
-    fun listMovies(): ResponseEntity<List<MovieDTO>> {
-        val movies = movieService.listMovies()
+    fun listMovies(): ResponseEntity<List<ListMoviesResponse>> {
+        val movies = movieService.listMovies().map { it ->
+            ListMoviesResponse(title = it.title, duration = it.duration)
+        }
         return ResponseEntity.ok(movies)
     }
 

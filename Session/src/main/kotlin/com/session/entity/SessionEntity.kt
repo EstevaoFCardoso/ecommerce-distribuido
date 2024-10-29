@@ -35,11 +35,15 @@ class SessionEntity(
 
     @Column(name = "END_RANGE_TIME")
     var endRangeTime: LocalDateTime? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "CINE_ROOM_ID")
+    var cineRoom: CineRoomEntity? = null,
 )
 
 @Component
 class SessionAssembler(
-    private val assembler: MovieAssembler
+    private val assembler: MovieAssembler,
 ) {
 
     fun toDTO(sessionEntity: SessionEntity): SessionDTO {
@@ -49,7 +53,7 @@ class SessionAssembler(
             endRangeTime = sessionEntity.endRangeTime,
             initRangeTime = sessionEntity.initRangeTime,
             endSession = sessionEntity.endSession,
-            description = sessionEntity.description
+            description = sessionEntity.description,
         )
     }
 
