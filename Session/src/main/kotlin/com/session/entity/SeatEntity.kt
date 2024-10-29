@@ -10,7 +10,7 @@ import java.io.Serializable
 @Getter
 @Setter
 @Entity
-@Table(name = "seat")
+@Table(name = "SEAT")
 class SeatEntity(
 
     @Id

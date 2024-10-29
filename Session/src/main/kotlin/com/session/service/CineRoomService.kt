@@ -1,5 +1,6 @@
 package com.session.service
 
+import com.session.controller.api.error.CineRoomNotFoundException
 import com.session.controller.api.request.dto.CineRoomDTO
 import com.session.entity.CineRoomAssembler
 import com.session.repository.CineRoomRepository
@@ -20,7 +21,7 @@ class CineRoomService(
 
     fun getCineRoomById(id: Long): CineRoomDTO? {
         val cineRoomDTO = cineRoomRepository.findById(id).orElseThrow {
-            EntityNotFoundException("CineRoom with ID $id not found")
+            CineRoomNotFoundException("CineRoom with ID $id not found")
         }
         return cineRoomAssembler.toDTO(cineRoomDTO)
     }

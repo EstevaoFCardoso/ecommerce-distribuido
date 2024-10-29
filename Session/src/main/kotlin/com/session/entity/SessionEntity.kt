@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Getter
 @Setter
 @Entity
-@Table(name = "SESSION")
+@Table(name = "SESSIONN")
 class SessionEntity(
     @Id
     @Column(name = "ID_SESSION")

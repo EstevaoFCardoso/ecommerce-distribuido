@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 @Getter
 @Setter
 @Entity
-@Table(name = "seat_session")
+@Table(name = "SEAT_SESSION")
 class SeatSessionEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

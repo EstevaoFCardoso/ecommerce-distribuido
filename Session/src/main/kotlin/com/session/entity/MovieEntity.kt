@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 @Getter
 @Setter
 @Entity
-@Table(name = "movies")
+@Table(name = "MOVIE")
 class MovieEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
