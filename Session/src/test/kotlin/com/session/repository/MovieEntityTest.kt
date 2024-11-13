@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import templates.MovieTemplate
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -20,13 +21,7 @@ class MovieEntityTest {
 
     @Test
     fun `test save and find movie by ID`() {
-        val movie = MovieEntity(
-            title = "Inception",
-            synopsis = "A mind-bending thriller",
-            duration = 148L,
-            genre = GenreEnum.ACTION,
-            classification = "PG-13"
-        )
+        val movie = MovieTemplate.validMovieEntity()
 
         val savedMovie = movieRepository.save(movie)
         val foundMovie = movieRepository.findById(savedMovie.id!!)
@@ -37,14 +32,14 @@ class MovieEntityTest {
 
     @Test
     fun `test find all movies`() {
-        val movie1 = MovieEntity(
+        val movie1 = MovieTemplate.validMovieEntity(
             title = "Avatar",
             synopsis = "An epic adventure",
             duration = 162L,
             genre = GenreEnum.FANTASY,
             classification = "PG-13"
         )
-        val movie2 = MovieEntity(
+        val movie2 =MovieTemplate.validMovieEntity(
             title = "Titanic",
             synopsis = "A tragic romance",
             duration = 195L,
@@ -61,7 +56,7 @@ class MovieEntityTest {
 
     @Test
     fun `test delete movie`() {
-        val movie = MovieEntity(
+        val movie = MovieTemplate.validMovieEntity(
             title = "Interstellar",
             synopsis = "Space exploration beyond imagination",
             duration = 169L,

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import templates.CineRoomTemplate
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -19,7 +20,7 @@ class CineRoomRepositoryTest {
 
     @Test
     fun `test save and find cine room by ID`() {
-        val cineRoom = CineRoomEntity(
+        val cineRoom = CineRoomTemplate.validCineRoomEntity(
             numberRoom = 1,
             name = "Main Theater"
         )
@@ -33,7 +34,7 @@ class CineRoomRepositoryTest {
 
     @Test
     fun `test delete cine room`() {
-        val cineRoom = CineRoomEntity(
+        val cineRoom = CineRoomTemplate.validCineRoomEntity(
             numberRoom = 2,
             name = "VIP Room"
         )
@@ -47,7 +48,7 @@ class CineRoomRepositoryTest {
 
     @Test
     fun `test find all cine rooms`() {
-        val cineRoom1 = CineRoomEntity(
+        val cineRoom1 = CineRoomTemplate.validCineRoomEntity(
             numberRoom = 3,
             name = "Room 3"
         )
