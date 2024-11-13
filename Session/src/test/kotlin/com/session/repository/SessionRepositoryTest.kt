@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import templates.MovieTemplate
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -25,7 +26,7 @@ class SessionRepositoryTest {
 
     @Test
     fun `test save and find session by ID`() {
-        val movie = MovieEntity(
+        val movie =  MovieTemplate.validMovieEntity(
             title = "Inception",
             synopsis = "A mind-bending thriller",
             duration = 148L,
@@ -51,14 +52,14 @@ class SessionRepositoryTest {
 
     @Test
     fun `test find all sessions`() {
-        val movie1 = MovieEntity(
+        val movie1 = MovieTemplate.validMovieEntity(
             title = "Avatar",
             synopsis = "An epic adventure",
             duration = 162L,
             genre = GenreEnum.FANTASY,
             classification = "PG-13"
         )
-        val movie2 = MovieEntity(
+        val movie2 =  MovieTemplate.validMovieEntity(
             title = "Titanic",
             synopsis = "A tragic romance",
             duration = 195L,
@@ -81,7 +82,7 @@ class SessionRepositoryTest {
 
     @Test
     fun `test delete session`() {
-        val movie = MovieEntity(
+        val movie =  MovieTemplate.validMovieEntity(
             title = "Interstellar",
             synopsis = "Space exploration beyond imagination",
             duration = 169L,
