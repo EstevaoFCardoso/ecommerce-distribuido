@@ -5,40 +5,56 @@ import com.session.enums.GenreEnum
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
-import java.io.Serializable
+import org.springframework.stereotype.Component
 
 @Getter
 @Setter
 @Entity
-@Table(name = "movies")
-class MovieEntity : Serializable {
+@Table(name = "MOVIE")
+class MovieEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    @Column(name = "ID_MOVIE")
+    val id: Long? = null,
 
-    @Column(name = "title")
-    var title: String? = null
+    @Column(name = "TITLE")
+    val title: String,
 
-    @Column(name = "synopsis")
-    var synopsis: String? = null
+    @Column(name = "SYNOPSIS")
+    val synopsis: String,
 
-    @Column(name = "duration")
-    var duration: Long? = null
+    @Column(name = "DURATION")
+    val duration: Long,
 
-    @Column(name = "genre")
-    var genre: String? = null
+    @Enumerated(EnumType.STRING)
+    @Column(name = "GENRE")
+    val genre: GenreEnum,
 
-    @Column(name = "classification")
-    var classification: String? = null
-
-}
-
-fun MovieEntity.toDTO(): MovieDTO {
-    return MovieDTO(
-        title = this.title ?: "",
-        synopsis = this.synopsis ?: "",
-        duration = this.duration ?: 0L,
-        genre =  GenreEnum.fromName(this.genre.toString()).toString(),
-        classification = this.classification ?: ""
+    @Column(name = "CLASSIFICATION")
+    val classification: String,
     )
+
+@Component
+class MovieAssembler {
+
+    fun toDTO(movie: MovieEntity): MovieDTO {
+        return MovieDTO(
+            title = movie.title,
+            synopsis = movie.synopsis,
+            duration = movie.duration,
+            genre = movie.genre,
+            classification = movie.classification
+        )
+    }
+
+    fun toEntity(movie: MovieDTO): MovieEntity {
+        return MovieEntity(
+            title = movie.title,
+            synopsis = movie.synopsis,
+            duration = movie.duration,
+            genre = movie.genre,
+            classification = movie.classification
+        )
+    }
+
 }

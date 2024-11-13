@@ -19,6 +19,12 @@ class ErrorHandler : ResponseEntityExceptionHandler() {
         val errorResponse = ErrorResponse(HttpStatus.NOT_FOUND, ex.message ?: "Recurso não encontrado")
         return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
     }
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun handleCinemaRoomNotFound(ex: CineRoomNotFoundException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        logger.error("Recurso não encontrado: ${ex.message}")
+        val errorResponse = ErrorResponse(HttpStatus.NOT_FOUND, ex.message ?: "Sala de cinema não encontrada")
+        return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
+    }
 
     @ExceptionHandler(Exception::class)
     fun handleGlobalException(ex: Exception, request: WebRequest): ResponseEntity<ErrorResponse> {

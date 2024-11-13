@@ -4,42 +4,67 @@ import com.session.controller.api.request.dto.SessionDTO
 import jakarta.persistence.*
 import lombok.Getter
 import lombok.Setter
-import java.io.Serializable
+import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 @Getter
 @Setter
 @Entity
-@Table(name = "session")
-class SessionEntity : Serializable {
-
+@Table(name = "SESSIONN")
+class SessionEntity(
     @Id
+    @Column(name = "ID_SESSION")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    var id: Long = 0,
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")
-    var movieId: Long? = null
+    @ManyToOne
+    @JoinColumn(name = "ID_MOVIE")
+    var movie: MovieEntity? = null,
 
-    @Column(name = "start_time")
-    var startSession: LocalDateTime? = null
+    @Column(name = "SESSION_DESCRIPTION")
+    var description: String? = null,
 
-    @Column(name = "end_time")
-    var endSession: LocalDateTime? = null
+    @Column(name = "START_TIME")
+    var startSession: LocalDateTime? = null,
 
-    @Column(name = "init_range_time")
-    var initRangeTime: LocalDateTime? = null
+    @Column(name = "END_TIME")
+    var endSession: LocalDateTime? = null,
 
-    @Column(name = "end_range_time")
-    var endRangeTime: LocalDateTime? = null
-}
+    @Column(name = "INIT_RANGE_TIME")
+    var initRangeTime: LocalDateTime? = null,
 
-fun SessionEntity.toDTO(): SessionDTO {
-    return SessionDTO(
-        movieId = this.movieId,
-        startSession = this.startSession,
-        endRangeTime = endRangeTime,
-        initRangeTime = initRangeTime,
-        endSession = endSession
-    )
+    @Column(name = "END_RANGE_TIME")
+    var endRangeTime: LocalDateTime? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "CINE_ROOM_ID")
+    var cineRoom: CineRoomEntity? = null,
+)
+
+@Component
+class SessionAssembler(
+    private val assembler: MovieAssembler,
+) {
+
+    fun toDTO(sessionEntity: SessionEntity): SessionDTO {
+        return SessionDTO(
+            movie = sessionEntity.movie?.let { assembler.toDTO(it) },
+            startSession = sessionEntity.startSession,
+            endRangeTime = sessionEntity.endRangeTime,
+            initRangeTime = sessionEntity.initRangeTime,
+            endSession = sessionEntity.endSession,
+            description = sessionEntity.description,
+        )
+    }
+
+    fun toEntity(sessionDTO: SessionDTO): SessionEntity {
+        return SessionEntity(
+            movie = sessionDTO.movie?.let { assembler.toEntity(it) },
+            startSession = sessionDTO.startSession,
+            endSession = sessionDTO.endSession,
+            initRangeTime = sessionDTO.initRangeTime,
+            endRangeTime = sessionDTO.endRangeTime,
+            description = sessionDTO.description,
+        )
+    }
 }

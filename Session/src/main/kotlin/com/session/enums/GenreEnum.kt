@@ -18,7 +18,8 @@ enum class GenreEnum(
     SCIENCE_FICTION("Science Fiction"),
     THRILLER("Thriller"),
     WAR("War"),
-    WESTERN("Western");
+    WESTERN("Western"),
+    UNKNOWN("Unknown");
 
     companion object {
         fun fromName(displayName: String): GenreEnum? {

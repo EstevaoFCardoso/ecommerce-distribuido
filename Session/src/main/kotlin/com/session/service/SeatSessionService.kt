@@ -1,21 +1,20 @@
 package com.session.service
 
 import com.session.controller.api.request.dto.SeatSessionDTO
-import com.session.controller.api.request.dto.toEntity
-import com.session.entity.SeatSessionEntity
-import com.session.entity.toDTO
+import com.session.entity.SeatSessionAssembler
 import com.session.repository.SeatSessionRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
 class SeatSessionService(
-    private val seatSessionRepository: SeatSessionRepository
+    private val seatSessionRepository: SeatSessionRepository,
+    private val seatSessionAssembler: SeatSessionAssembler
 ) {
 
     fun getAllSeatSessions(): List<SeatSessionDTO> {
         return seatSessionRepository.findAll().map { seatSession ->
-            seatSession.toDTO()
+            seatSessionAssembler.toDTO(seatSession)
         }
     }
 
@@ -23,17 +22,17 @@ class SeatSessionService(
         val seatSession = seatSessionRepository.findById(id).orElseThrow {
             EntityNotFoundException("SeatSession with ID $id not found")
         }
-        return seatSession.toDTO()
+        return seatSessionAssembler.toDTO(seatSession)
     }
 
     fun createSeatSession(seatSessionDTO: SeatSessionDTO): SeatSessionDTO {
-        return seatSessionRepository.save(seatSessionDTO.toEntity()).toDTO()    }
+        return seatSessionAssembler.toDTO(seatSessionRepository.save(seatSessionAssembler.toEntity(seatSessionDTO))) }
 
     fun updateSeatSession(id: Long, seatSessionDTO: SeatSessionDTO) : SeatSessionDTO {
         if (!seatSessionRepository.existsById(id)) {
             throw EntityNotFoundException("Movie with ID $id not found")
         }
-        return seatSessionRepository.save(seatSessionDTO.toEntity()).toDTO()
+        return seatSessionAssembler.toDTO(seatSessionRepository.save(seatSessionAssembler.toEntity(seatSessionDTO)))
     }
 
     fun deleteSeatSession(id: Long): Boolean{
